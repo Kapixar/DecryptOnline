@@ -15,6 +15,7 @@ const words = [['PRACA','OBIAD','POGODA','HACZYK'],['PISTOLET','MOTYL','WEEKEND'
 
 playButton.addEventListener('click', () => { generateGame(codeInput.value) })
 
+codeInput.oldValue = ''
 codeInput.addEventListener('input', (e) => {
     if (!/^[0-9a-fA-F]+$|^$/.test(e.target.value.toString()))
         return codeInput.value = codeInput.oldValue
