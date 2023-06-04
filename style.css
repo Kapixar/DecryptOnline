@@ -3,7 +3,13 @@
     src: url('./decrypted.ttf') format('truetype');
 }
 
-body {
+@font-face {
+    font-family: "Geologica";
+    src: url('./Geologica-ExtraBold.ttf') format('truetype');
+}
+
+
+html {
     --color1: #00aee5;
     --color2: #016eb1;
     overflow: hidden;
@@ -15,7 +21,8 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: repeating-conic-gradient(at 25%,
+    overflow: hidden;
+    background: repeating-conic-gradient(from -90deg at 25%,
             var(--color1) calc(var(--angle)) calc(var(--angle) + 10deg),
             var(--color2) calc(var(--angle) + 10deg) calc(var(--angle) + 25deg));
     background-size: contain;
@@ -45,14 +52,13 @@ body {
 
 #bg-dots {
     position: absolute;
-    left: 50%;
-    top: 50%;
     background: radial-gradient(rgba(0, 0, 0, 0.3) 10%, transparent 10%);
     background-position: center;
     background-size: 30px 30px;
     width: 200vw;
     height: 200vh;
-    transform: rotate(10deg) translate(-50%, -50%);
+    rotate: 10deg;
+    transform-origin: center;
 }
 
 main {
@@ -67,7 +73,7 @@ main {
 }
 
 body.game main {
-    scale: 20;
+    scale: 0;
     opacity: 0;
 }
 
@@ -101,9 +107,11 @@ body > .card {
     translate: -50% -50%;
     transition: 1s;
     box-shadow: 0 0 500px;
+    height: 70vh;
 }
 body > .hidden {
     translate: -50% 50vh;
+    display: none;
 }
 
 .card div,
@@ -141,28 +149,47 @@ body > .hidden {
 
 body > section {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 50vh;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    border-radius: 20px;
 
     display: flex;
-    flex-direction: row;
-    background-color: blue;
+    align-items: center;
+    animation: 1s zoom-in forwards;
+    scale: 0.2;
+    opacity: 0;
+    max-height: 90vh;
+    max-width: 90vw;
+    height: 100vh;
+    aspect-ratio: 900 / 319;
 }
 
 body:not(.game)>section {
-    opacity: 0;
     pointer-events: none;
-    scale: 0.5;
-    transition: 1s;
+    animation: none;
 }
 
-.board {
+@keyframes zoom-in {
+    to{scale: 1; opacity: 1;}
+}
+
+#board {
     position: relative;
-    height: 45vh;
-    border-radius: 10px;
     background-repeat: no-repeat;
+    background-image: url('./img/black_board.webp');
+    background-size: contain;
+    aspect-ratio: 900 / 319;
+    container-type: inline-size;
+    /* max-width: 100%; */
+    width: 100%;
+}
+
+#board > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 
 section > img {
@@ -170,21 +197,44 @@ section > img {
 }
 
 .key{
-    position: relative;
+    --delay: 0;
+    position: absolute;
+    top: -200%;
+    width: 18%;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     background: url('./img/key.webp');
     background-size: cover;
+    -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
+    clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
     aspect-ratio: 49/74;
-    width: 150px;
-    color: rgb(12, 75, 192);
+    color: rgb(1, 9, 255);
+    font-family: 'Geologica';
+    font-size: 3cqw;
+    animation: slide-in 2s var(--delay) forwards;
 }
 
-.key::before{
-    position: absolute;
-    content: '';
-    background-color: rgba(146, 13, 13, 0.755);
-    width: 100%;
-    height: 100%;
+@keyframes slide-in {
+    to{
+        top: -8%;
+    }
+}
+
+.key:nth-of-type(1){
+    left: 8%;
+    --delay: .5s;
+}
+.key:nth-of-type(2){
+    left: 30%;
+    --delay: 1s;
+}
+.key:nth-of-type(3){
+    left: 51%;
+    --delay: 1.5s;
+}
+.key:nth-of-type(4){
+    left: 73%;
+    --delay: 2s;
 }
