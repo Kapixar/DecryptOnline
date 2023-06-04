@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#016eb1">
+    <link rel="stylesheet" href="./style.css">
+    <title>Decrypto</title>
+</head>
+
+<body class="">
+    <div id="bg-conic">
+        <div id="bg-dots"></div>
+    </div>
+    <div id="bg-glow"></div>
+
+    <div class="card black">
+        <div>0.0.0</div>
+    </div>
+    <script>
+        const c = document.querySelector('.card div');
+        
+        let t = 0
+        let n = [1,2,3,4]
+        c.addEventListener('click', () => {
+            if(Date.now() - t < 6000) return
+            t = Date.now()
+
+            c.textContent = n.sort(() => (Math.random() > 0.5) ? 1 : -1).slice(0,3).join('.')
+        })
+    </script>
+</body>
+
+</html>

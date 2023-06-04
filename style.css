@@ -65,6 +65,18 @@ body {
     transform-origin: center;
 }
 
+/* Card generator */
+
+#card-gen{
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    width: 50px;
+    height: 50px;
+}
+
+/* menu */
+
 main {
     display: grid;
     flex-wrap: wrap;
@@ -72,7 +84,7 @@ main {
     /* grid-template-rows: 1fr 1fr; */
     justify-items: center;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
     transition: 1s;
     transform-origin: 60% 60%;
     max-width: 90vw;
@@ -83,20 +95,26 @@ body.game main {
     opacity: 0;
 }
 
-main img {
+main a {
     filter: drop-shadow(8px 5px rgba(0, 0, 0, 0.5));
     max-height: 90vh;
     max-width: 25vw;
-    
+}
+
+main img {
+    width: 100%;
+    cursor: pointer;
 }
 
 .card {
     position: relative;
-    background-size: cover;
+    background-size: contain;
+    background-position: 50% 30%;
+    background-repeat: no-repeat;
     aspect-ratio: 1;
-    width: 100%;
-    border-radius: 10px;
+    border-radius: 7%;
     container-type: inline-size;
+    width: 100%;
 }
 
 .card.white {
@@ -113,8 +131,9 @@ body > .card {
     left: 50%;
     translate: -50% -50%;
     transition: 1s;
-    box-shadow: 0 0 500px;
     height: 70vh;
+    max-width: 90vw;
+    width: initial;
 }
 body > .hidden {
     translate: -50% 50vh;

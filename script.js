@@ -50,7 +50,6 @@ function generateGame(code) {
     }
 
     // document.body.requestFullscreen()
-    console.log('generating game')
     document.querySelector('#board img').src = `./img/${colors[team]}_board_front.webp`
     document.body.classList.add('game')
 
