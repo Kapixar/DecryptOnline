@@ -132,13 +132,14 @@ body > .card {
     left: 50%;
     translate: -50% -50%;
     transition: 1s;
-    height: 70vh;
-    max-width: 90vw;
+    height: min(70vh, 90vw);
     width: initial;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 100px;
 }
 body > .hidden {
     translate: -50% 50vh;
-    display: none;
+    box-shadow: none;
 }
 
 .card div,
@@ -241,6 +242,11 @@ section > img {
     font-family: 'Geologica';
     font-size: 3cqw;
     animation: slide-in 2s var(--delay) forwards;
+    transition: filter 1s;
+}
+
+body:not(:has(.hidden)) .key{
+   filter: blur(10px);
 }
 
 @keyframes slide-in {
