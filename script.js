@@ -15,12 +15,16 @@ const words = [['PRACA','OBIAD','POGODA','HACZYK'],['PISTOLET','MOTYL','WEEKEND'
 
 playButton.addEventListener('click', () => { generateGame(codeInput.value) })
 
-codeInput.addEventListener('input', (event) => {
-    if (!/^[0-9a-fA-F]+$|^$/.test(event.target.value.toString()))
+codeInput.addEventListener('input', (e) => {
+    if (!/^[0-9a-fA-F]+$|^$/.test(e.target.value.toString()))
         return codeInput.value = codeInput.oldValue
     codeInput.value = codeInput.value.toUpperCase()
     codeInput.oldValue = codeInput.value
 })
+
+codeInput.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") generateGame(codeInput.value)
+});
 
 
 const colors = ['black', 'white']
@@ -49,7 +53,7 @@ function generateGame(code) {
         codeCard.parentElement.classList.add(colors[team]);
     }
 
-    // document.body.requestFullscreen()
+    document.body.requestFullscreen()
     document.querySelector('#board img').src = `./img/${colors[team]}_board_front.webp`
     document.body.classList.add('game')
 
