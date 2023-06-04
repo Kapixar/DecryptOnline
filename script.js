@@ -33,6 +33,8 @@ function generateGame(code) {
     if(code.length < 7 && code.length != 0) return
     let banned = [], team = 0
 
+    codeInput.readOnly = true;
+
     if(code != '') {
         let codeBin = hex2bin(code)
         team = 1 - codeBin[31]
