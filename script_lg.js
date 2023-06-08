@@ -49,8 +49,8 @@ function generateCodes(deck, board){
 }
 
 async function handleScreen(){
-    window.history.pushState({}, '', '/lg.html')
-    // document.body.requestFullscreen()
+    window.history.pushState({}, '', 'lg.html')
+    document.body.requestFullscreen()
     let wakeLock = null;
     try {
         wakeLock = await navigator.wakeLock.request("screen");

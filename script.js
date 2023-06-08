@@ -83,7 +83,7 @@ function hex2bin(hex) {
 }
 
 async function handleScreen(){
-    window.history.pushState({}, '', '/')
+    window.history.pushState({}, '', '')
     document.body.requestFullscreen()
     let wakeLock = null;
     try {
