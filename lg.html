@@ -6,9 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#016eb1">
-    <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="./img/logo.webp" type="image/x-icon">
-    <title>Decrypto</title>
+    <title>Velvet Decrypto</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        main{
+            align-items: end;
+        }
+        body > section {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+        }
+        #board1{
+            transform: rotate(180deg);
+        }
+    </style>
 </head>
 
 <body class="">
@@ -24,19 +36,19 @@
         <div class="card white">
             <div id="play-button">START</div>
         </div>
-        <div class="card black">
-            <input type="text" maxlength="8" value="" placeholder="C0DE">
-        </div>
     </main>
     <section>
         <div class="board" id="board1">
+            <img src="./img/black_board.webp" alt="board">
+        </div>
+        <div class="board" id="board2">
             <img src="./img/black_board.webp" alt="board">
         </div>
     </section>
     <div class="card hidden">
         <div>C0DE</div>
     </div>
-    <script src="script.js"></script>
+    <script src="script_lg.js"></script>
 </body>
 
 </html>

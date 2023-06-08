@@ -8,29 +8,47 @@
     <meta name="theme-color" content="#016eb1">
     <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="./img/logo.webp" type="image/x-icon">
-    <title>Decrypto</title>
+    <title>Kod Decrypto</title>
 </head>
 
 <body class="">
+    <span>🔋</span>
     <div id="bg-conic">
         <div id="bg-dots"></div>
     </div>
     <div id="bg-glow"></div>
 
     <div class="card black">
-        <div>0.0.0</div>
+        <div>START</div>
     </div>
     <script>
         const c = document.querySelector('.card div');
-        
-        let t = 0
-        let n = [1,2,3,4]
-        c.addEventListener('click', () => {
-            if(Date.now() - t < 6000) return
-            t = Date.now()
 
-            c.textContent = n.sort(() => (Math.random() > 0.5) ? 1 : -1).slice(0,3).join('.')
-        })
+        let t = 0;
+        let n = [1, 2, 3, 4];
+        c.parentElement.addEventListener('click', () => {
+            if (Date.now() - t < 30000) {
+                c.animate(
+                    { translate: ['-30px', '30px', '0px', '-10px', '5px'] }
+                    , {
+                        duration: 500,
+                        easing: 'steps(5, end)'
+                    })
+                return;
+            };
+            t = Date.now();
+            c.animate(
+                { opacity: [.7, 0, .4, 0, 0, .5, .1, .7] }
+                , {
+                    duration: 1000,
+                    easing: 'steps(8, end)'
+                })
+            setTimeout(() => {
+                c.textContent = n.sort(() => (Math.random() > 0.5) ? 1 : -1).slice(0, 3).join('.')
+            }, 500)
+        });
+
+        document.querySelector('body > span').addEventListener('click', () => { document.body.classList.toggle('battery_saver') })
     </script>
 </body>
 

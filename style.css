@@ -66,6 +66,21 @@ body {
     transform-origin: center;
 }
 
+body > span{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+    height: 100px;
+    z-index: 100;
+    font-size: 5vh;
+    color: var(--color2);
+    text-shadow: 3px 3px black;
+    user-select: none;
+    cursor: pointer;
+    filter: hue-rotate(100deg);
+}
+
 /* Card generator */
 
 #card-gen{
@@ -202,7 +217,7 @@ body:not(.game)>section {
     to{scale: 1; opacity: 1;}
 }
 
-#board {
+.board {
     position: relative;
     background-repeat: no-repeat;
     background-image: url('./img/black_board.webp');
@@ -213,7 +228,7 @@ body:not(.game)>section {
     width: 100%;
 }
 
-#board > img {
+.board > img {
     position: absolute;
     top: 0;
     left: 0;
@@ -238,11 +253,11 @@ section > img {
     -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
     clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
     aspect-ratio: 49/74;
-    color: rgb(1, 9, 255);
+    color: transparent;
     font-family: 'Geologica';
     font-size: 3cqw;
-    animation: slide-in 2s var(--delay) forwards;
-    transition: filter 1s;
+    animation: slide-in 3s var(--delay) forwards;
+    transition: filter 1s, color 1s;
 }
 
 body:not(:has(.hidden)) .key{
@@ -250,7 +265,11 @@ body:not(:has(.hidden)) .key{
 }
 
 @keyframes slide-in {
+    40%{
+        top: -8%;
+    }
     to{
+        color: rgb(1, 9, 255);
         top: -8%;
     }
 }
@@ -270,4 +289,21 @@ body:not(:has(.hidden)) .key{
 .key:nth-of-type(4){
     left: 73%;
     --delay: 2s;
+}
+
+body.battery_saver{
+    background-color: black;
+    #bg-conic, #bg-glow, .board img {
+        display: none;
+    }
+    .board{
+        background-image: none;
+    }
+    .key{
+        background-image: none;
+        color: white;
+    }
+    > span { 
+        filter: hue-rotate(240deg);
+    }
 }
