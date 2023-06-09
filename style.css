@@ -299,6 +299,11 @@ body.battery_saver{
     }
     .board{
         background-image: none;
+        translate: 0 17%;
+    }
+    #board1{
+        background-image: none;
+        translate: 0 -17%;
     }
     .key{
         display: flex;
@@ -318,6 +323,6 @@ body.battery_saver{
         font-size: 8vh;
     }
     > span { 
-        filter: hue-rotate(140deg);
+        opacity: .2;
     }
 }
