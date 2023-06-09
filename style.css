@@ -68,16 +68,17 @@ body {
 
 body > span{
     position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 100px;
-    height: 100px;
+    bottom: 10px;
+    right: 10px;
+    width: 50px;
+    height: 20px;
     z-index: 100;
-    font-size: 5vh;
+    font-size: 20px;
     color: var(--color2);
     text-shadow: 3px 3px black;
     user-select: none;
     cursor: pointer;
+    text-align: right;
     filter: hue-rotate(100deg);
 }
 
@@ -302,8 +303,17 @@ body.battery_saver{
         translate: 0 17%;
     }
     #board1{
-        background-image: none;
         translate: 0 -17%;
+    }
+    .board::before{
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        translate: -50% 0;
+        content: attr(data-c);
+        color: white;
+        opacity: 0.2;
+        font-family: Geologica;
     }
     .key{
         display: flex;
