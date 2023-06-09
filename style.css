@@ -202,8 +202,8 @@ body > section {
     animation: 1s zoom-in forwards;
     scale: 0.2;
     opacity: 0;
-    max-height: 90vh;
-    max-width: 90vw;
+    max-height: 95vh;
+    max-width: 95vw;
     height: 100vh;
     aspect-ratio: 900 / 319;
 }
@@ -224,8 +224,8 @@ body:not(.game)>section {
     background-size: contain;
     aspect-ratio: 900 / 319;
     container-type: inline-size;
-    /* max-width: 100%; */
     width: 100%;
+    border-radius: 5px;
 }
 
 .board > img {
@@ -257,7 +257,8 @@ section > img {
     font-family: 'Geologica';
     font-size: 3cqw;
     animation: slide-in 3s var(--delay) forwards;
-    transition: filter 1s, color 1s;
+    transition: color 1s, background 1s;
+    overflow: visible;
 }
 
 body:not(:has(.hidden)) .key{
@@ -292,7 +293,7 @@ body:not(:has(.hidden)) .key{
 }
 
 body.battery_saver{
-    background-color: black;
+    background: black;
     #bg-conic, #bg-glow, .board img {
         display: none;
     }
@@ -300,10 +301,23 @@ body.battery_saver{
         background-image: none;
     }
     .key{
-        background-image: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: rgba(119, 119, 119, 0.1);
+        border-radius: 15px;
+        color: white!important;
+        clip-path: none;
+    }
+    .key::after{
+        bottom: 0;
+        content: attr(data-n);
         color: white;
+        opacity: 0.4;
+        font-family: Decrypted;
+        font-size: 8vh;
     }
     > span { 
-        filter: hue-rotate(240deg);
+        filter: hue-rotate(140deg);
     }
 }

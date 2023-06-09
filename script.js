@@ -72,6 +72,7 @@ function generateGame(code) {
         else if (len > 7)
             key.style.fontSize = `${2.5}cqw`
         key.textContent = phrazes;
+        key.setAttribute('data-n', 4-codes.indexOf(phrazes))
         board.prepend(key)
     }
 
@@ -83,7 +84,7 @@ function hex2bin(hex) {
 }
 
 async function handleScreen(){
-    window.history.pushState({}, '', 'DecryptOnline')
+    window.history.pushState({}, '', '')
     document.body.requestFullscreen()
     let wakeLock = null;
     try {

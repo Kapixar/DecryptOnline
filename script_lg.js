@@ -44,12 +44,13 @@ function generateCodes(deck, board){
         else if (len > 7)
             key.style.fontSize = `${2.5}cqw`
         key.textContent = phrazes;
+        key.setAttribute('data-n', 4-codes.indexOf(phrazes))
         board.prepend(key)
     }
 }
 
 async function handleScreen(){
-    window.history.pushState({}, '', 'DecryptOnline/lg.html')
+    window.history.pushState({}, '', '/lg.html')
     document.body.requestFullscreen()
     let wakeLock = null;
     try {
