@@ -53,7 +53,7 @@ function generateCodes(deck, board){
 }
 
 async function handleScreen(){
-    window.history.pushState({}, '', 'DecryptOnline/lg.html')
+    window.history.pushState({}, '', '')
     document.body.requestFullscreen()
     let wakeLock = null;
     try {
