@@ -1,4 +1,4 @@
-import QrScanner from '/qrcode/qr-scanner.min.js';
+import QrScanner from './qrcode/qr-scanner.min.js';
 
 const playButton = document.querySelector('#play-button')
 const bateryButton = document.querySelector("body > span")
