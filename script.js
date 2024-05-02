@@ -36,9 +36,10 @@ const qrScanner = new QrScanner(
     }
 )
 
-    QrScanner.listCameras(true).then(devices => {
-        console.log('Available cameras:', devices);
-    })
+QrScanner.listCameras().then(devices => {
+    console.log('Available cameras:', devices);
+})
+
 qrScanner.setInversionMode('invert');
 
 videoCheckbox.addEventListener('change', () => {
