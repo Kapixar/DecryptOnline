@@ -67,6 +67,8 @@ function displayCodeCard(text, colorID = 0) {
     card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
     card.addEventListener('click', () => {
+        document.body.requestFullscreen();
+        screen.orientation.lock('landscape');
         document.querySelectorAll('#cardHolder .card').forEach((card, index) => {
             setTimeout(() => {
                 card.classList.add('slide-down');
@@ -74,8 +76,7 @@ function displayCodeCard(text, colorID = 0) {
                     card.remove();
                 });
             }, 100 * index);
-        });
-            
+        });  
     })
 }
 
@@ -97,6 +98,8 @@ function displayQRCodeCard(data, colorID = 0) {
     card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
     card.addEventListener('click', () => {
+        document.body.requestFullscreen()
+        screen.orientation.lock('landscape');
         document.querySelectorAll('#cardHolder .card').forEach((card, index) => {
             setTimeout(() => {
                 card.classList.add('slide-down');
@@ -105,7 +108,6 @@ function displayQRCodeCard(data, colorID = 0) {
                 });
             }, 100 * index);
         });
-            
     })
 }
 
