@@ -30,7 +30,7 @@ body {
             var(--color1) calc(var(--angle)) calc(var(--angle) + 10deg),
             var(--color2) calc(var(--angle) + 10deg) calc(var(--angle) + 25deg));
     background-size: contain;
-    animation: rotate infinite 150s linear;
+    animation: rotate infinite 110s linear;
 }
 
 @property --angle {
@@ -59,6 +59,7 @@ body {
     background: radial-gradient(rgba(0, 0, 0, 0.3) 10%, transparent 10%);
     background-position: center;
     background-size: 30px 30px;
+    top: -30vh;
     left: -50vw;
     width: 200vw;
     height: 200vh;
@@ -142,23 +143,32 @@ main img {
     background-image: url('./img/black_card.webp');
 }
 
-body > .card {
+#cardHolder {
     position: absolute;
     top: 50%;
     left: 50%;
     translate: -50% -50%;
-    transition: 1s;
-    height: min(70vh, 90vw);
-    width: initial;
-    background-color: rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0 100px;
-}
-body > .hidden {
-    translate: -50% 50vh;
-    box-shadow: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: 90vw;
+    max-height: 90vh;
 }
 
-.card div,
+#cardHolder > .card {
+    width: min(60vh, 90vw);
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+#cardHolder > .card.slide-down {
+    transform: translateY(300%);
+    transition: transform 1s cubic-bezier(0.33, 0.66, 1, 1);
+}
+
+.card .cardUI,
 .card input {
     display: flex;
     align-items: center;
@@ -166,7 +176,7 @@ body > .hidden {
     position: absolute;
     left: 13%;
     top: 12%;
-    width: 74%;
+    width: 76%;
     height: 50%;
 
     color: rgb(255, 71, 71);
@@ -175,17 +185,115 @@ body > .hidden {
     text-align: center;
 
     user-select: none;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); /* mobile */
     background-color: transparent;
     border: none;
     outline: none;
     overflow: hidden;
     cursor: pointer;
     opacity: 0.7;
+    z-index: 9;
+}
+
+input[type="checkbox"] {
+    display: none;
 }
 
 ::placeholder {
     color: rgb(255, 71, 71);
     opacity: 0.5;
+}
+
+.card label {
+    position: absolute;
+    bottom: 50%;
+    right: 8%;
+    width: 25%;
+    user-select: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.card :not(:checked) + label img {
+    content: url('./img/no_camera_icon.webp');
+}
+
+.card :checked + label + input {
+    animation: blinking 500ms steps(8, end) forwards;
+}
+
+.card :checked + label + input + video {
+    animation: blinking 1500ms steps(8, end);
+}
+
+@keyframes blinking {
+    0% { opacity: 0.7; }
+    10% { opacity: 0; }
+    20% { opacity: 0.4; }
+    30% { opacity: 0; }
+    40% { opacity: 0; }
+    50% { opacity: 0.5; }
+    60% { opacity: 0.1; }
+    70% { opacity: 0.7; }
+    100% { opacity: 0; display: none; }
+}
+
+.card img, .card canvas {
+    position: absolute;
+    top: 15%;
+    left: 27%;
+    /* aspect-ratio: 4 / 3; */
+    width: 46%;
+    cursor: pointer;
+}
+
+#reader {
+    overflow: hidden;
+    border-radius: 7%;
+}
+
+#reader::after, #qrcode::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-image: url('./img/black_card_top.webp');
+    background-size: contain;
+    border-radius: 7%;
+    z-index: 6;
+}
+
+#reader.white::after, #qrcode.white::after {
+    background-image: url('./img/white_card_top.webp');
+}
+
+#reader video {
+    width: 100% !important;
+    position: relative;
+    top: 38%;
+    left: 0;
+    translate: 0% -50%;
+    filter: sepia(100%) saturate(300%) brightness(30%) hue-rotate(310deg);
+}
+/* red line going up and down */
+#reader:has(:checked)::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: linear-gradient(transparent 0%, rgb(146, 0, 0) 20%, transparent 30%);
+    animation: red-line 4s infinite linear;
+    z-index: 5;
+}
+
+@keyframes red-line {
+    0% { transform: translateY(-30%); }
+    50% { transform: translateY(70%); }
+    100% { transform: translateY(-30%); }
 }
 
 
@@ -227,6 +335,7 @@ body:not(.game)>section {
     container-type: inline-size;
     width: 100%;
     border-radius: 5px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 .board > img {
@@ -254,43 +363,40 @@ section > img {
     -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
     clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
     aspect-ratio: 49/74;
-    color: transparent;
+    color: rgb(1, 9, 255);
     font-family: 'Geologica';
     font-size: 3cqw;
-    animation: slide-in 3s var(--delay) forwards;
-    transition: color 1s, background 1s;
+    transition: color 1s steps(0), background 1s;
     overflow: visible;
+    filter: blur(10px);
 }
 
-body:not(:has(.hidden)) .key{
-   filter: blur(10px);
+body:not(:has(#cardHolder .card)) .key {
+   animation: slide-in 3s var(--delay) forwards;
+   filter: none;
 }
 
 @keyframes slide-in {
-    40%{
-        top: -8%;
-    }
-    to{
-        color: rgb(1, 9, 255);
+    50%, to{
         top: -8%;
     }
 }
 
 .key:nth-of-type(1){
     left: 8%;
-    --delay: .5s;
+    --delay: 0s;
 }
 .key:nth-of-type(2){
     left: 30%;
-    --delay: 1s;
+    --delay: .5s;
 }
 .key:nth-of-type(3){
     left: 51%;
-    --delay: 1.5s;
+    --delay: 1s;
 }
 .key:nth-of-type(4){
     left: 73%;
-    --delay: 2s;
+    --delay: 1.5s;
 }
 
 body.battery_saver{

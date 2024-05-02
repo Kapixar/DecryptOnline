@@ -8,6 +8,7 @@
     <meta name="theme-color" content="#016eb1">
     <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="./img/logo.webp" type="image/x-icon">
+    <link rel="manifest" href="HTMLmanifest.json">
     <title>Decrypto</title>
 </head>
 
@@ -22,21 +23,32 @@
             <img src="img/logo2.webp" alt="Decrypto">
         </a>
         <div class="card white">
-            <div id="play-button">START</div>
+            <div class="cardUI" id="play-button">START</div>
         </div>
-        <div class="card black">
+        <div id="reader" class="card black">
+            <input type="checkbox" id="cameraOn">
+            <label for="cameraOn">
+                <img src="img/camera_icon.webp" alt="camera">
+            </label>
             <input type="text" maxlength="8" value="" placeholder="C0DE">
+            <video></video>
         </div>
+        <!-- <div class="card black">
+            <input type="text" maxlength="8" value="" placeholder="C0DE">
+        </div> -->
     </main>
     <section>
         <div class="board" id="board">
             <img src="./img/black_board.webp" alt="board">
         </div>
     </section>
-    <div class="card hidden">
-        <div>C0DE</div>
-    </div>
-    <script src="script.js"></script>
+    <div id="cardHolder"></div>
+    
+    <script src="qrcode/qrcode.min.js"></script>
+    <script type="module" src="qrcode/qr-scanner-worker.min.js"></script>
+    <script type="module" src="qrcode/qr-scanner.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>

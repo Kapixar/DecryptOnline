@@ -10,8 +10,10 @@
     <title>Velvet Decrypto</title>
     <link rel="stylesheet" href="./style.css">
     <style>
-        main{
+        body main {
             align-items: end;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
         }
         body > section {
             display: grid;
@@ -34,7 +36,7 @@
             <img src="img/logo2.webp" alt="Decrypto">
         </a>
         <div class="card white">
-            <div id="play-button">START</div>
+            <div class="cardUI" id="play-button">START</div>
         </div>
     </main>
     <section>
@@ -45,9 +47,7 @@
             <img src="./img/black_board.webp" alt="board">
         </div>
     </section>
-    <div class="card hidden">
-        <div>C0DE</div>
-    </div>
+    <div id="cardHolder"></div>
     <script src="script_lg.js"></script>
 </body>
 

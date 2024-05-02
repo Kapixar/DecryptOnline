@@ -1,19 +1,112 @@
+import QrScanner from '/qrcode/qr-scanner.min.js';
+
 const playButton = document.querySelector('#play-button')
 const bateryButton = document.querySelector("body > span")
-const codeInput = document.querySelector('input')
-const gameSection = document.querySelector('body > section')
+const codeInput = document.querySelector('input[type="text"]')
+const videoElem = document.querySelector('video')
+const videoCheckbox = document.querySelector('#reader input[type="checkbox"]')
 const board = document.querySelector('#board');
-const codeCard = document.querySelector('body > .card div');
+const cardHolder = document.querySelector('#cardHolder');
 
 const words = [['PRACA', 'OBIAD', 'POGODA', 'HACZYK'], ['PISTOLET', 'MOTYL', 'WEEKEND', 'METRO'], ['OPÓR', 'ORZEŁ', 'BURAK', 'PALIWO'], ['MEDAL', 'WYSPA', 'PRĘDKOŚĆ', 'DRZWI'], ['WYJŚCIE', 'PARYŻ', 'GRZYB', 'KONCERT'], ['RAJ', 'SŁOWNIK', 'PLANETA', 'PILOT'], ['IMPREZA', 'PSZENICA', 'OSZUSTWO', 'ROBOT'], ['PLAGA', 'PRZEPIS', 'BRZUCH', 'PAJĄK'], ['OWCA', 'ŁÓŻKO', 'SEKRETARKA', 'STRES'], ['NAUCZYCIEL', 'KOLACJA', 'CHMURA', 'GAZETA'], ['WODA', 'KOSMOS', 'DOKTOR', 'OBRĄCZKA'], ['ŚNIEG', 'POTWÓR', 'KRASNOLUDEK', 'BRUD'], ['MUCHA', 'SZALEŃSTWO', 'SATELITA', 'TORPEDA'], ['PIRAMIDA', 'SPODNIE', 'SCHODY', 'MARIONETKA'], ['KLEPSYDRA', 'PARKING', 'KUCHNIA', 'PEGAZ'], ['SIATKA', 'ŚCIANA', 'WŁÓCZNIA', 'APOKALIPSA'], ['SYROP', 'CHEMIA', 'SZCZUR', 'IGRZYSKA'], ['DÓŁ', 'ZŁOŚĆ', 'KOŁO', 'CIASTECZKO'], ['KSIĘŻYC', 'KOWBOJ', 'WIADOMOŚĆ', 'LODÓWKA'], ['PIRAT', 'WIECZÓR', 'ZACHÓD', 'PIANINO'], ['NOC', 'SPOŁECZNOŚĆ', 'OPERA', 'PIEKARNIK'], ['PLASTIK', 'OBCY', 'GŁOWA', 'ROZKŁAD'], ['CZAS', 'ARCHEOLOGIA', 'KRZESŁO', 'KOŚCI'], ['NATURA', 'ZBIORNIK', 'LAS', 'KLATKA'], ['SKÓRA', 'KONTAKT', 'PAMIĘĆ', 'CZERŃ'], ['KOŃ', 'DAR', 'OŁÓWEK', 'GUZIK'], ['RELIGIA', 'MIŁOŚĆ', 'CZEKOLADA', 'DACH'], ['PSZCZOŁY', 'MAGIA', 'ZIELEŃ', 'RZEKA'], ['DŻUNGLA', 'PLAŻA', 'ZEGAR', 'KOMPAS'], ['DZIURA', 'AFRYKA', 'DETEKTYW', 'GENIUSZ'], ['ZAKŁAD', 'ŚNIADANIE', 'DZIECIŃSTWO', 'ORZESZEK'], ['CHINY', 'KOBIETA', 'PIŁKA', 'MĘŻCZYZNA'], ['KOMPUTER', 'GNIAZDKO', 'SUKIENKA', 'TRÓJKĄT'], ['CUKIEREK', 'CIEPŁO', 'KŁÓDKA', 'POŁUDNIE'], ['STRZAŁA', 'ALKOHOL', 'ZWŁOKI', 'MYDŁO'], ['INTERNET', 'PINGWIN', 'ZBROJA', 'TELEWIZJA'], ['JĘZYK', 'ŻETON', 'MAGNEZ', 'PIOSENKA'], ['SZPITAL', 'HYDRAULIK', 'SOPOT', 'MYSZ'], ['DYWAN', 'APARAT', 'OWOC', 'BUT'], ['BÓG', 'FILOZOFIA', 'SZTUKI WALKI', 'WYWIAD'], ['BIEL', 'PACZKA', 'ATAK', 'ODRODZENIE'], ['LALKA', 'TARCZA', 'CHOROBA', 'RESTAURACJA'], ['MARZENIE', 'CZAROWNICA', 'ROWER', 'AUSTRALIA'], ['OAZA', 'SAKSOFON', 'UKŁADANKA', 'STRACH'], ['TANIEC', 'MASKA', 'UCHO', 'SERWIS'], ['FLAGA', 'METAL', 'PIKNIK', 'BĘBEN'], ['CYKLOP', 'ŻYRAFA', 'ŁAPÓWKA', 'BOMBA'], ['TAJEMNICA', 'KARETKA', 'OBÓZ', 'BUTELKA'], ['DŁOŃ', 'JEDNOROŻEC', 'JASZCZURKA', 'FUTRO'], ['SANKI', 'TELEFON', 'MASZYNA', 'SZKŁO'], ['ARCHITEKTURA', 'TOALETA', 'WĄS', 'GILOTYNA'], ['NAUKA', 'PORANEK', 'LEK', 'KASA'], ['PIWNICA', 'IGŁA', 'GITARA', 'PSYCHOLOG'], ['TRĄBA', 'WEŁNA', 'RADOŚĆ', 'KANION'], ['JABŁKO', 'LEW', 'KOPIA', 'BIBLIOTEKA'], ['KOMIKS', 'ŻARÓWKA', 'NIEBO', 'KIJ'], ['SEN', 'DOŚWIADCZENIE', 'POLICJA', 'WYPADEK'], ['ZĄB', 'OBRAZ', 'ARMIA', 'PRZYNĘTA'], ['SKRZYDŁO', 'KOSZMAR', 'SAMOLOT', 'PIZZA'], ['WULKAN', 'SYRENA', 'KORONA', 'SER'], ['ZOMBIE', 'MIKROSKOP', 'PIWO', 'CZAPKA'], ['NOWY JORK', 'ŁAŃCUCH', 'WĄŻ', 'GRANAT'], ['MATEMATYKA', 'ROBAK', 'ZAMEK', 'ŻÓŁĆ'], ['SOWA', 'KOC', 'HOTEL', 'SMUTEK'], ['SŁOŃ', 'LUSTRO', 'CIAŁO', 'NOC'], ['NASZYJNIK', 'BURZA', 'KRZYK', 'KOMIN'], ['EGIPT', 'ARKTYKA', 'EKONOMIA', 'DIAMENT'], ['PASAŻER', 'ZIEMIA', 'PRĄD', 'KOT'], ['DUCH', 'ŚLUB', 'PASJONAT', 'ŚLĄSK'], ['DZIECKO', 'TURYSTA', 'JESIEŃ', 'KLAWISZ'], ['ŚWIECA', 'PREHISTORIA', 'OPERACJA', 'OKNO'], ['BIOLOGIA', 'NÓŻ', 'SMOK', 'PROMIEŃ'], ['ŚWINIA', 'DINOZAUR', 'KIESZEŃ', 'ZABÓJCA'], ['WIELORYB', 'PTAK', 'FRANCJA', 'MORZE'], ['GIGANT', 'BIURO', 'LOKOMOTYWA', 'TRUCIZNA'], ['WILKOŁAK', 'SKRZYPCE', 'NOGA', 'RZEŹNIA'], ['CENTAUR', 'KSIĄŻKA', 'DZWON', 'HELIKOPTER'], ['BIELIZNA', 'SZKOŁA', 'DIABEŁ', 'BRODA'], ['WAMPIR', 'PIES', 'MOSTEK', 'RAKIETA'], ['SZTUKA', 'KSIĘŻNICZKA', 'OGRÓD', 'ŚMIERĆ'], ['POEMAT', 'DRAMAT', 'GOLF', 'JAJKO'], ['WOJNA', 'ELF', 'PIERWIASTEK', 'RZEŹBA'], ['BARAK', 'MUZEUM', 'MIÓD', 'RÓG'], ['OJCIEC', 'KORZEŃ', 'NARODZINY', 'GÓRA'], ['ROSJA', 'NIEMCY', 'TRADYCJA', 'ARYSTOKRATA'], ['STÓŁ', 'ZDJĘCIE', 'GRA', 'SMAK'], ['KLUCZ', 'KLESZCZE', 'TUSZ', 'REWOLUCJA'], ['TWARZ', 'LABORATORIUM', 'MNICH', 'CYRK'], ['MIECZ', 'LABIRYNT', 'PIEKŁO', 'PIÓRO'], ['WALIZKA', 'JASKINIA', 'KAWA', 'BAWEŁNA'], ['ZIMA', 'BANAN', 'GARNITUR', 'ŚCIEŻKA'], ['PERFUMY', 'BANK', 'KINO', 'MŁOT'], ['ZOO', 'ŁÓDŹ PODWODNA', 'DESZCZ', 'ENERGIA'], ['MUZYK', 'KLEJ', 'MARCHEWKA', 'SPORTOWIEC'], ['ŁUK', 'WŁAMANIE', 'POKÓJ', 'PRZERWA'], ['ŻABA', 'WILK', 'POLOWANIE', 'DRUT'], ['ORKIESTRA', 'KOŚCIÓŁ', 'ANTYK', 'RAMIĘ'], ['LATO', 'KREW', 'PIEKARNIK', 'SAMOCHÓD'], ['ŁÓDKA', 'SPADOCHRON', 'SKLEP', 'MONUMENT'], ['CHLEB', 'WIEŻA', 'KLON', 'LEGENDA'], ['WYBORY', 'POMARAŃCZA', 'INDEKS', 'CZERWIEŃ'], ['ŻÓŁW', 'WINDA', 'AGENT', 'BASEN'], ['GWIAZDA', 'MATKA', 'KOKTAJL', 'TĘCZA'], ['GRANICA', 'WIEWIÓRKA', 'DOMINO', 'EXPRESS'], ['SŁUGA', 'PUSTYNIA', 'OŚMIORNICA', 'WAKACJE'], ['KALENDARZ', 'ARMATA', 'TEATR', 'KWADRAT'], ['ŚMIECH', 'FANTASTYKA', 'STOPA', 'CEGŁA'], ['PERŁA', 'OGIEŃ', 'KONKURS', 'KRÓL'], ['WIOSNA', 'PAW', 'KAMELEON', 'NUREK'], ['MAFIA', 'KONSTRUKCJA', 'HORROR', 'KANAPKA']]
 const colors = ['black', 'white']
 const kolory = ['CZARNI', 'BIALI']
 
+const qrScanner = new QrScanner(
+    videoElem,
+    decodedText => {
+        console.log('decoded qr code:', decodedText);
+        generateGame(decodedText.data);
+    },
+    {
+        preferredCamera: 'environment',
+        // highlightScanRegion	: true,
+        calculateScanRegion(a) {
+            let b = a.videoWidth;
+            let c = b / 1.5;
+            return {
+                x: 0,
+                y: Math.round((a.videoHeight - b) / 2),
+                width: b,
+                height: b,
+                downScaledWidth: c,
+                downScaledHeight: c
+            }
+        }
+    }
+)
 
-codeCard.addEventListener('click', () => {
-    codeCard.parentElement.classList.add('hidden')
+    QrScanner.listCameras(true).then(devices => {
+        console.log('Available cameras:', devices);
+    })
+qrScanner.setInversionMode('invert');
+
+videoCheckbox.addEventListener('change', () => {
+    if (videoCheckbox.checked) {
+        qrScanner.start();
+        videoElem.style.opacity = 1;
+    } else {
+        qrScanner.stop();
+        videoElem.style.opacity = 0;
+    }
 })
 
+function displayCodeCard(text, colorID = 0) {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.classList.add(colors[colorID]);
+
+    const cardText = document.createElement('div');
+    cardText.classList.add('cardUI');
+    cardText.textContent = text;
+    card.appendChild(cardText);
+
+    cardHolder.appendChild(card);
+    // animate slide up
+    card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
+
+    card.addEventListener('click', () => {
+        document.querySelectorAll('#cardHolder .card').forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('slide-down');
+                card.addEventListener('transitionend', () => {
+                    card.remove();
+                });
+            }, 100 * index);
+        });
+            
+    })
+}
+
+function displayQRCodeCard(data, colorID = 0) {
+    const card = document.createElement('div');
+    card.id = 'qrcode';
+    card.classList.add('card');
+    card.classList.add(colors[colorID]);
+
+    cardHolder.appendChild(card);
+
+    new QRCode("qrcode", {
+        text: data,
+        colorDark : "#e9807d",
+        colorLight : "#680e07",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
+    card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
+
+    card.addEventListener('click', () => {
+        document.querySelectorAll('#cardHolder .card').forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('slide-down');
+                card.addEventListener('transitionend', () => {
+                    card.remove();
+                });
+            }, 100 * index);
+        });
+            
+    })
+}
 
 playButton.addEventListener('click', () => { generateGame(codeInput.value) })
 
@@ -34,14 +127,18 @@ bateryButton.addEventListener('click', () => { document.body.classList.toggle('b
 
 function generateGame(code) {
     if (code.length < 7 && code.length != 0) return
+    qrScanner.stop()
     let banned = [], team = 0
 
     codeInput.readOnly = true;
 
     if (code != '') {
         let codeBin = hex2bin(code)
+        console.log(code);
         team = 1 - codeBin[31]
+        console.log(codeBin, team);
         for (let i = 0; i < 28; i += 7) banned.push(parseInt(codeBin.slice(i, i + 7), 2))
+        displayCodeCard("START",  codeBin[31]);
     } else
         team = Math.round(Math.random())
 
@@ -51,14 +148,16 @@ function generateGame(code) {
 
     if (code == '') {
         let codeBin = ''
-        for (x of deck) {
+        for (const x of deck) {
             codeBin += x.toString(2).padStart(7, '0')
         }
         codeBin += `000${team}`
-        codeCard.textContent = parseInt(codeBin, 2).toString(16).toUpperCase()
-        codeCard.parentElement.classList.remove('hidden');
-        codeCard.parentElement.classList.add(colors[team]);
+        const codeHex = parseInt(codeBin, 2).toString(16).toUpperCase()
+        displayCodeCard(codeHex, 1 - team);
+        displayQRCodeCard(codeHex, 1 - team);
     }
+
+    // team = team == undefined ? 0 : team;
 
     document.querySelector('#board img').src = `./img/${colors[team]}_board_front.webp`
     document.body.classList.add('game')
@@ -88,6 +187,7 @@ function hex2bin(hex) {
 async function handleScreen(){
     window.history.pushState({}, '', '')
     document.body.requestFullscreen()
+    screen.orientation.lock('landscape');
     let wakeLock = null;
     try {
         wakeLock = await navigator.wakeLock.request("screen");
