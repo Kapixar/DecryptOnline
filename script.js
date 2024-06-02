@@ -15,8 +15,9 @@ const kolory = ['CZARNI', 'BIALI']
 const qrScanner = new QrScanner(
     videoElem,
     decodedText => {
-        console.log('decoded qr code:', decodedText);
-        generateGame(decodedText.data);
+        const gameCode = decodedText.data.slice(-8);
+        console.log(gameCode);
+        generateGame(gameCode);
     },
     {
         preferredCamera: 'environment',
@@ -35,6 +36,11 @@ const qrScanner = new QrScanner(
         }
     }
 )
+
+// get param c from url
+const urlParams = new URLSearchParams(window.location.search);
+const c = urlParams.get('c');
+if (c) generateGame(c);
 
 QrScanner.listCameras().then(devices => {
     console.log('Available cameras:', devices);
@@ -66,50 +72,65 @@ function displayCodeCard(text, colorID = 0) {
     // animate slide up
     card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
-    card.addEventListener('click', () => {
-        document.body.requestFullscreen();
-        screen.orientation.lock('landscape');
-        document.querySelectorAll('#cardHolder .card').forEach((card, index) => {
-            setTimeout(() => {
-                card.classList.add('slide-down');
-                card.addEventListener('transitionend', () => {
-                    card.remove();
-                });
-            }, 100 * index);
-        });  
-    })
+    cardClick(card);
+}
+
+function displayLinkCard(text, action, colorID = 0) {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.classList.add(colors[colorID]);
+
+    const cardText = document.createElement('div');
+    cardText.classList.add('cardUI');
+    cardText.textContent = text;
+    card.appendChild(cardText);
+
+    cardHolder.appendChild(card);
+
+    card.addEventListener('click', action, { once: true })
 }
 
 function displayQRCodeCard(data, colorID = 0) {
     const card = document.createElement('div');
-    card.id = 'qrcode';
-    card.classList.add('card');
+    card.id = `qrcode-${data}`;
+    card.classList.add('card', 'qrcode');
     card.classList.add(colors[colorID]);
 
     cardHolder.appendChild(card);
 
-    new QRCode("qrcode", {
+    new QRCode(card.id, {
         text: data,
         colorDark : "#e9807d",
         colorLight : "#680e07",
-        correctLevel : QRCode.CorrectLevel.H
+        correctLevel : QRCode.CorrectLevel.M
     });
 
     card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
+    cardClick(card);
+}
+
+function cardClick(card) {
     card.addEventListener('click', () => {
-        document.body.requestFullscreen()
-        screen.orientation.lock('landscape');
+        if (document.webkitFullscreenEnabled) {
+            document.body.requestFullscreen();
+            screen.orientation.lock('landscape');
+        }
         document.querySelectorAll('#cardHolder .card').forEach((card, index) => {
             setTimeout(() => {
                 card.classList.add('slide-down');
                 card.addEventListener('transitionend', () => {
                     card.remove();
+                    board.classList.add('shown');
                 });
             }, 100 * index);
-        });
-    })
+        });  
+    }, { once: true })
 }
+
+
+
+
 
 playButton.addEventListener('click', () => { generateGame(codeInput.value) })
 
@@ -142,6 +163,11 @@ function generateGame(code) {
         console.log(codeBin, team);
         for (let i = 0; i < 28; i += 7) banned.push(parseInt(codeBin.slice(i, i + 7), 2))
         displayCodeCard("START",  codeBin[31]);
+        // link to code.html
+        displayLinkCard("C0DE", () => { 
+            console.log(window.location);
+            window.location.href = `/code.html`;
+        }, 1 - team);
     } else
         team = Math.round(Math.random())
 
@@ -157,7 +183,8 @@ function generateGame(code) {
         codeBin += `000${team}`
         const codeHex = parseInt(codeBin, 2).toString(16).toUpperCase()
         displayCodeCard(codeHex, 1 - team);
-        displayQRCodeCard(codeHex, 1 - team);
+        // displayQRCodeCard(`https://192.168.1.23:5500?c=${codeHex}`, 1 - team);
+        displayQRCodeCard(`${window.location.hostname}?c=${codeHex}`, 1 - team);
     }
 
     // team = team == undefined ? 0 : team;
