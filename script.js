@@ -69,7 +69,6 @@ function displayCodeCard(text, colorID = 0) {
     card.appendChild(cardText);
 
     cardHolder.appendChild(card);
-    // animate slide up
     card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
     cardClick(card);
@@ -86,6 +85,8 @@ function displayLinkCard(text, action, colorID = 0) {
     card.appendChild(cardText);
 
     cardHolder.appendChild(card);
+
+    card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
     card.addEventListener('click', action, { once: true })
 }
@@ -166,7 +167,7 @@ function generateGame(code) {
         // link to code.html
         displayLinkCard("C0DE", () => { 
             console.log(window.location);
-            window.location.href = `/code.html`;
+            window.location.href = `${window.location.origin}/code.html`;
         }, 1 - team);
     } else
         team = Math.round(Math.random())
