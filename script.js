@@ -74,7 +74,7 @@ function displayCodeCard(text, colorID = 0) {
     cardClick(card);
 }
 
-function displayLinkCard(text, action, colorID = 0) {
+function displayLinkCard(text, url, colorID = 0) {
     const card = document.createElement('div');
     card.classList.add('card');
     card.classList.add(colors[colorID]);
@@ -88,7 +88,9 @@ function displayLinkCard(text, action, colorID = 0) {
 
     card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
-    card.addEventListener('click', action, { once: true })
+    card.addEventListener('click', () => {
+        window.location.href = url;
+    }, { once: true })
 }
 
 function displayQRCodeCard(data, colorID = 0) {
@@ -165,10 +167,12 @@ function generateGame(code) {
         for (let i = 0; i < 28; i += 7) banned.push(parseInt(codeBin.slice(i, i + 7), 2))
         displayCodeCard("START",  codeBin[31]);
         // link to code.html
-        displayLinkCard("C0DE", () => { 
-            console.log(window.location);
-            window.location.href = `${window.location.origin}/code.html`;
-        }, 1 - team);
+        let hrefUrl = window.location.href;
+        if(hrefUrl.includes('.html')) 
+            hrefUrl = hrefUrl.replace('index.html', 'code.html');
+        else 
+            hrefUrl += 'code.html';
+        displayLinkCard("C0DE", `${href}/code.html`, 1 - team);
     } else
         team = Math.round(Math.random())
 
