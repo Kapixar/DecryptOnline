@@ -184,7 +184,7 @@ function generateGame(code) {
         const codeHex = parseInt(codeBin, 2).toString(16).toUpperCase()
         displayCodeCard(codeHex, 1 - team);
         // displayQRCodeCard(`https://192.168.1.23:5500?c=${codeHex}`, 1 - team);
-        displayQRCodeCard(`${window.location.hostname}?c=${codeHex}`, 1 - team);
+        displayQRCodeCard(`${window.location.href}?c=${codeHex}`, 1 - team);
     }
 
     // team = team == undefined ? 0 : team;
