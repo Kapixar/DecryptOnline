@@ -166,13 +166,15 @@ function generateGame(code) {
         console.log(codeBin, team);
         for (let i = 0; i < 28; i += 7) banned.push(parseInt(codeBin.slice(i, i + 7), 2))
         displayCodeCard("START",  codeBin[31]);
-        // link to code.html
-        let hrefUrl = window.location.href;
-        if(hrefUrl.includes('.html')) 
-            hrefUrl = hrefUrl.replace('index.html', 'code.html');
-        else 
-            hrefUrl += 'code.html';
-        displayLinkCard("C0DE", `${href}/code.html`, 1 - team);
+
+        if(window.location.href.includes('?c=')) {
+            let hrefUrl = window.location.href;
+            if(hrefUrl.includes('.html')) 
+                hrefUrl = hrefUrl.replace('index.html', 'code.html');
+            else 
+            hrefUrl = hrefUrl.replace('?c=', 'code.html?c=');
+            displayLinkCard("C0DE", hrefUrl, 1 - team);
+        }
     } else
         team = Math.round(Math.random())
 
