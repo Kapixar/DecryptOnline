@@ -12,8 +12,6 @@ const kolory = ['CZARNI', 'BIALI']
 
 // codeCard.addEventListener('click', () => { codeCard.parentElement.classList.add('hidden') })
 playButton.addEventListener('click', () => { generateGame()})
-bateryButton.addEventListener('click', () => { document.body.classList.toggle('battery_saver') })
-
 
 function generateGame() {
     let team1 = Math.round(Math.random())
@@ -31,6 +29,9 @@ function generateGame() {
 
     generateCodes(deck1, board1)
     generateCodes(deck2, board2)
+
+    board1.classList.add('shown');
+    board2.classList.add('shown');
 
     handleScreen()
 }

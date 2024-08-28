@@ -10,12 +10,13 @@
     <title>Velvet Decrypto</title>
     <link rel="stylesheet" href="./style.css">
     <style>
-        body main {
+        main {
             align-items: end;
             grid-template-columns: 1fr 1fr;
             gap: 50px;
+            padding-bottom: 20px;
         }
-        body > section {
+        #container > section {
             display: grid;
             grid-template-rows: 1fr 1fr;
         }
@@ -26,29 +27,39 @@
 </head>
 
 <body class="">
-    <span>🔋</span>
-    <div id="bg-conic">
-        <div id="bg-dots"></div>
+    <div id="container">
+        <span id="menu" class="hidden">
+            <img id="menu-icon" src="img/greater-than.png">
+            <img id="menu-battery" src="img/battery.png">
+            <img id="menu-fullscreen" src="img/fullscreen.png">
+            <img id="menu-exit" src="img/exit.png">
+        </span>
+        <div id="bg">
+            <div id="bg-conic"></div>
+            <div id="bg-dots"></div>
+            <div id="bg-glow"></div>
+        </div>
+        <main>
+            <a href="./code.html">
+                <img src="img/logo2.webp" alt="Decrypto">
+            </a>
+            <div class="card white">
+                <div class="cardUI" id="play-button">START</div>
+            </div>
+        </main>
+        <section>
+            <div class="board" id="board1">
+                <img src="./img/black_board.webp" alt="board">
+            </div>
+            <div class="board" id="board2">
+                <img src="./img/black_board.webp" alt="board">
+            </div>
+        </section>
     </div>
-    <div id="bg-glow"></div>
-    <main>
-        <a href="./code.html">
-            <img src="img/logo2.webp" alt="Decrypto">
-        </a>
-        <div class="card white">
-            <div class="cardUI" id="play-button">START</div>
-        </div>
-    </main>
-    <section>
-        <div class="board" id="board1">
-            <img src="./img/black_board.webp" alt="board">
-        </div>
-        <div class="board" id="board2">
-            <img src="./img/black_board.webp" alt="board">
-        </div>
-    </section>
+
     <div id="cardHolder"></div>
     <script src="script_lg.js"></script>
+    <script src="menu.js"></script>
 </body>
 
 </html>

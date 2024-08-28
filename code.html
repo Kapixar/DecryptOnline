@@ -8,29 +8,38 @@
     <meta name="theme-color" content="#016eb1">
     <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="./img/logo.webp" type="image/x-icon">
-    <title>Kod Decrypto</title>
+    <title>Decrypto Code</title>
 </head>
 
 <body class="">
-    <span>🔋</span>
-    <div id="bg-conic">
-        <div id="bg-dots"></div>
-    </div>
-    <div id="bg-glow"></div>
-
-    <div id="cardHolder">
-        <div class="card black">
-            <div class="cardUI">START</div>
+    <div id="container">
+        <span id="menu" class="hidden">
+            <img id="menu-icon" src="img/greater-than.png">
+            <img id="menu-battery" src="img/battery.png">
+            <img id="menu-fullscreen" src="img/fullscreen.png">
+            <img id="menu-exit" src="img/exit.png">
+        </span>
+        <div id="bg">
+            <div id="bg-conic"></div>
+            <div id="bg-dots"></div>
+            <div id="bg-glow"></div>
+        </div>
+    
+        <div id="cardHolder">
+            <div class="card black">
+                <div class="cardUI">START</div>
+            </div>
         </div>
     </div>
     <script>
-        const c = document.querySelector('.card div');
+        const card = document.querySelector('.card');
+        const cardText = document.querySelector('.card div');
 
         let t = 0;
         let n = [1, 2, 3, 4];
-        c.parentElement.addEventListener('click', () => {
+        cardText.parentElement.addEventListener('click', () => {
             if (Date.now() - t < 30000) {
-                c.animate(
+                cardText.animate(
                     { translate: ['-30px', '30px', '0px', '-10px', '5px'] }
                     , {
                         duration: 500,
@@ -39,19 +48,24 @@
                 return;
             };
             t = Date.now();
-            c.animate(
+            cardText.animate(
                 { opacity: [.7, 0, .4, 0, 0, .5, .1, .7] }
                 , {
                     duration: 1000,
                     easing: 'steps(8, end)'
-                })
+            })
+            card.animate(
+                { scale: [1, 0.95, 1] }
+                , {
+                    duration: 400,
+                    easing: 'ease-in-out'
+            })
             setTimeout(() => {
-                c.textContent = n.sort(() => (Math.random() > 0.5) ? 1 : -1).slice(0, 3).join('.')
+                cardText.textContent = n.sort(() => (Math.random() > 0.5) ? 1 : -1).slice(0, 3).join('.')
             }, 500)
         });
-
-        document.querySelector('body > span').addEventListener('click', () => { document.body.classList.toggle('battery_saver') })
     </script>
+    <script src="menu.js"></script>
 </body>
 
 </html>

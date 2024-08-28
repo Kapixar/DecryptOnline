@@ -1,7 +1,6 @@
 import QrScanner from './qrcode/qr-scanner.min.js';
 
 const playButton = document.querySelector('#play-button')
-const bateryButton = document.querySelector("body > span")
 const codeInput = document.querySelector('input[type="text"]')
 const videoElem = document.querySelector('video')
 const videoCheckbox = document.querySelector('#reader input[type="checkbox"]')
@@ -71,7 +70,7 @@ function displayCodeCard(text, colorID = 0) {
     cardHolder.appendChild(card);
     card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
-    cardClick(card);
+    addCardClick(card);
 }
 
 function displayLinkCard(text, url, colorID = 0) {
@@ -103,33 +102,35 @@ function displayQRCodeCard(data, colorID = 0) {
 
     new QRCode(card.id, {
         text: data,
-        colorDark : "#e9807d",
+        colorDark : "#ff6d6b",
         colorLight : "#680e07",
+
         correctLevel : QRCode.CorrectLevel.M
     });
 
     card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
 
-    cardClick(card);
+    addCardClick(card);
 }
 
-function cardClick(card) {
+function addCardClick(card) {
     card.addEventListener('click', () => {
         if (document.webkitFullscreenEnabled) {
             document.body.requestFullscreen();
             screen.orientation.lock('landscape');
         }
+        board.classList.add('shown');
         document.querySelectorAll('#cardHolder .card').forEach((card, index) => {
             setTimeout(() => {
                 card.classList.add('slide-down');
                 card.addEventListener('transitionend', () => {
                     card.remove();
-                    board.classList.add('shown');
                 });
             }, 100 * index);
         });  
     }, { once: true })
 }
+
 
 
 
@@ -148,8 +149,6 @@ codeInput.addEventListener('input', (e) => {
 codeInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter") generateGame(codeInput.value)
 });
-
-bateryButton.addEventListener('click', () => { document.body.classList.toggle('battery_saver') })
 
 
 function generateGame(code) {
@@ -173,7 +172,7 @@ function generateGame(code) {
                 hrefUrl = hrefUrl.replace('index.html', 'code.html');
             else 
             hrefUrl = hrefUrl.replace('?c=', 'code.html?c=');
-            displayLinkCard("C0DE", hrefUrl, 1 - team);
+            displayLinkCard("C0DES", hrefUrl, 1 - team);
         }
     } else
         team = Math.round(Math.random())
@@ -206,7 +205,7 @@ function generateGame(code) {
         key.classList.add('key')
         let len = phrazes.split(' ')[0].length
         if (len > 9)
-            key.style.fontSize = `${2}cqw`
+            key.style.fontSize = `${1.9}cqw`
         else if (len > 7)
             key.style.fontSize = `${2.5}cqw`
         key.textContent = phrazes;
@@ -229,7 +228,7 @@ async function handleScreen(){
     try {
         wakeLock = await navigator.wakeLock.request("screen");
     } catch (err) {
-        alert(`${err.name}, ${err.message}`);
+        console.log(`${err.name}, ${err.message}`);
     }
     window.addEventListener("popstate", (e) => {
         e.preventDefault();

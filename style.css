@@ -8,40 +8,79 @@
     src: url('./Geologica-ExtraBold.ttf') format('truetype');
 }
 
-
 body {
     --color1: #00aee5;
     --color2: #016eb1;
+    height: 100vh;
+    margin: 0;
+    background-color: black;
+}
+
+#container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
+
     display: flex;
     align-content: center;
     justify-content: center;
-    height: 90vh;
 }
 
-#bg-conic {
+#bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+    animation: fadeIn 1s;
     overflow: hidden;
-    background: repeating-conic-gradient(from -90deg at 25%,
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#bg.hidden {
+    display: none;
+}
+
+#bg-conic {
+    --angle: 0deg;
+    position: absolute;
+    top: calc(min(-100vw, -100vh) + 50vh);
+    left: calc(min(-100vw, -100vh) + 25vw);
+    width: max(200vw, 200vh);
+    height: max(200vw, 200vh);
+    overflow: hidden;  
+    background: repeating-conic-gradient(
             var(--color1) calc(var(--angle)) calc(var(--angle) + 10deg),
             var(--color2) calc(var(--angle) + 10deg) calc(var(--angle) + 25deg));
     background-size: contain;
-    animation: rotate infinite 110s linear;
+    animation: rotate infinite 120s linear;
 }
 
-@property --angle {
-    syntax: '<angle>';
-    inherits: false;
-    initial-value: 0deg;
-}
 
 @keyframes rotate {
-    to {
-        --angle: 360deg
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }
 
@@ -67,20 +106,35 @@ body {
     transform-origin: center;
 }
 
-body > span{
+/* Menu */
+
+#menu {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    width: 50px;
-    height: 20px;
+    height: clamp(10px, 10vh, 60px);
     z-index: 100;
-    font-size: 20px;
     color: var(--color2);
-    text-shadow: 3px 3px black;
     user-select: none;
     cursor: pointer;
-    text-align: right;
     filter: hue-rotate(100deg);
+    transition: translate .5s, opacity .5s;
+    opacity: 0.7;
+}
+
+#menu.hidden {
+    translate: 75% 0;
+    opacity: 0.2;
+
+    #menu-icon {
+        rotate: 180deg;
+    }
+}
+
+#menu img {
+    transition: rotate .5s;
+    height: 100%;
+    filter: invert(100%) drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
 }
 
 /* Card generator */
@@ -108,7 +162,7 @@ main {
     max-width: 90vw;
 }
 
-body.game main {
+.game main {
     scale: 0;
     opacity: 0;
 }
@@ -133,6 +187,7 @@ main img {
     border-radius: 7%;
     container-type: inline-size;
     width: 100%;
+    transition: box-shadow 0.5s;
 }
 
 .card.white {
@@ -248,12 +303,16 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
+.qrcode img {
+    opacity: 0.7;
+}
+
 #reader {
     overflow: hidden;
     border-radius: 7%;
 }
 
-#reader::after, .qrcode::after {
+#reader::after {
     position: absolute;
     top: 0;
     left: 0;
@@ -267,7 +326,7 @@ input[type="checkbox"] {
     /* opacity: 0; */
 }
 
-#reader.white::after, .qrcode.white::after {
+#reader.white::after {
     background-image: url('./img/white_card_top.webp');
 }
 
@@ -277,6 +336,7 @@ input[type="checkbox"] {
     top: 38%;
     left: 0;
     translate: 0% -50%;
+    opacity: 0.7;
     filter: sepia(100%) saturate(300%) brightness(30%) hue-rotate(310deg);
 }
 /* red line going up and down */
@@ -301,7 +361,7 @@ input[type="checkbox"] {
 
 /* gameSection */
 
-body > section {
+#container > section {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -319,7 +379,7 @@ body > section {
     aspect-ratio: 900 / 319;
 }
 
-body:not(.game)>section {
+body:not(.game) #container > section {
     pointer-events: none;
     animation: none;
 }
@@ -357,21 +417,38 @@ section > img {
     position: absolute;
     top: -200%;
     width: 18%;
+
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+
     background: url('./img/key.webp');
     background-size: cover;
     -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
     clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 10%, 90% 0);
     aspect-ratio: 49/74;
-    color: rgb(1, 9, 255);
+
+    color: rgba(1, 9, 255, 0);
     font-family: 'Geologica';
     font-size: 3cqw;
-    transition: color 1s steps(0), background 1s;
     overflow: visible;
     filter: blur(10px);
+
+    transition: all calc(var(--delay) / 2 + .3s), color 0s;
+}
+
+.key::after{
+    display: block;
+    bottom: 0;
+    content: attr(data-n);
+    color: white;
+    opacity: 0;
+    font-family: Decrypted;
+    font-size: min(10vh, 10vw);
+    max-height: 0;
+    transition: .5s;
 }
 
 .board.shown .key {
@@ -380,8 +457,9 @@ section > img {
 }
 
 @keyframes slide-in {
-    50%, to{
+    50%, to{    
         top: -8%;
+        color: rgba(1, 9, 255, 1);
     }
 }
 
@@ -404,19 +482,23 @@ section > img {
 
 body.battery_saver{
     background: black;
-    #bg-conic, #bg-glow, .board img {
+    .board img {
         display: none;
+    }
+    #bg {
+        animation: fadeOut 1s;
+    }
+    .card {
+        box-shadow: rgb(77, 77, 77) 0 0 15px;
     }
     .board{
         background-image: none;
-        translate: 0 17%;
-    }
-    #board1{
-        translate: 0 -17%;
-    }
+        box-shadow: none;
+    } 
+    
     .board::before{
         position: absolute;
-        bottom: 15px;
+        bottom: 0;
         left: 50%;
         translate: -50% 0;
         content: attr(data-c);
@@ -425,23 +507,18 @@ body.battery_saver{
         font-family: Geologica;
     }
     .key{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+        gap: 20px;
+        translate: 0 17%;
         background: rgba(119, 119, 119, 0.1);
         border-radius: 15px;
         color: white!important;
         clip-path: none;
     }
-    .key::after{
-        bottom: 0;
-        content: attr(data-n);
-        color: white;
-        opacity: 0.4;
-        font-family: Decrypted;
-        font-size: 10vh;
+    #board1 .key{
+        translate: 0 -17%;
     }
-    > span { 
-        opacity: .2;
+    .key::after{
+        opacity: 0.4;
+        max-height: 100px;
     }
 }
