@@ -44,6 +44,17 @@
         let counter = 0;
         let n = [1, 2, 3, 4];
 
+        // Restore previous state if timer hasn't run out
+        const storedT = localStorage.getItem('codeT');
+        const storedCode = localStorage.getItem('codeText');
+        const storedCounter = localStorage.getItem('codeCounter');
+
+        if (storedT && storedCode && Date.now() - parseInt(storedT) < 20000) {
+            t = parseInt(storedT);
+            counter = parseInt(storedCounter) || 0;
+            cardText.textContent = storedCode;
+        }
+
         cardText.parentElement.addEventListener('click', () => {
             if (Date.now() - t < 20000) {
                 cardText.animate(
@@ -56,6 +67,8 @@
             };
 
             t = Date.now();
+            localStorage.setItem('codeT', t);
+            localStorage.setItem('codeCounter', counter);
 
             cardText.animate(
                 { opacity: [.7, 0, .4, 0, 0, .5, .1, .7] }
@@ -86,7 +99,14 @@
                     const j = Math.floor(Math.random() * (i + 1));
                     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
                 }
-                cardText.textContent = shuffled.slice(0, 3).join('.')
+                const newCode = shuffled.slice(0, 3).join('.');
+                cardText.textContent = newCode;
+                localStorage.setItem('codeText', newCode);
+
+                if (counter > 1) {
+                    card.classList.toggle('white');
+                    card.classList.toggle('black');
+                }
             }, 500)
         });
     </script>

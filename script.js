@@ -6,6 +6,8 @@ const videoElem = document.querySelector('video')
 const videoCheckbox = document.querySelector('#reader input[type="checkbox"]')
 const board = document.querySelector('#board');
 const cardHolder = document.querySelector('#cardHolder');
+const landing = document.querySelector('#landing');
+const gameMode = document.querySelector('#gameMode');
 
 const words = [['PRACA', 'OBIAD', 'POGODA', 'HACZYK'], ['PISTOLET', 'MOTYL', 'WEEKEND', 'METRO'], ['OPÓR', 'ORZEŁ', 'BURAK', 'PALIWO'], ['MEDAL', 'WYSPA', 'PRĘDKOŚĆ', 'DRZWI'], ['WYJŚCIE', 'PARYŻ', 'GRZYB', 'KONCERT'], ['RAJ', 'SŁOWNIK', 'PLANETA', 'PILOT'], ['IMPREZA', 'PSZENICA', 'OSZUSTWO', 'ROBOT'], ['PLAGA', 'PRZEPIS', 'BRZUCH', 'PAJĄK'], ['OWCA', 'ŁÓŻKO', 'SEKRETARKA', 'STRES'], ['NAUCZYCIEL', 'KOLACJA', 'CHMURA', 'GAZETA'], ['WODA', 'KOSMOS', 'DOKTOR', 'OBRĄCZKA'], ['ŚNIEG', 'POTWÓR', 'KRASNOLUDEK', 'BRUD'], ['MUCHA', 'SZALEŃSTWO', 'SATELITA', 'TORPEDA'], ['PIRAMIDA', 'SPODNIE', 'SCHODY', 'MARIONETKA'], ['KLEPSYDRA', 'PARKING', 'KUCHNIA', 'PEGAZ'], ['SIATKA', 'ŚCIANA', 'WŁÓCZNIA', 'APOKALIPSA'], ['SYROP', 'CHEMIA', 'SZCZUR', 'IGRZYSKA'], ['DÓŁ', 'ZŁOŚĆ', 'KOŁO', 'CIASTECZKO'], ['KSIĘŻYC', 'KOWBOJ', 'WIADOMOŚĆ', 'LODÓWKA'], ['PIRAT', 'WIECZÓR', 'ZACHÓD', 'PIANINO'], ['NOC', 'SPOŁECZNOŚĆ', 'OPERA', 'PIEKARNIK'], ['PLASTIK', 'OBCY', 'GŁOWA', 'ROZKŁAD'], ['CZAS', 'ARCHEOLOGIA', 'KRZESŁO', 'KOŚCI'], ['NATURA', 'ZBIORNIK', 'LAS', 'KLATKA'], ['SKÓRA', 'KONTAKT', 'PAMIĘĆ', 'CZERŃ'], ['KOŃ', 'DAR', 'OŁÓWEK', 'GUZIK'], ['RELIGIA', 'MIŁOŚĆ', 'CZEKOLADA', 'DACH'], ['PSZCZOŁY', 'MAGIA', 'ZIELEŃ', 'RZEKA'], ['DŻUNGLA', 'PLAŻA', 'ZEGAR', 'KOMPAS'], ['DZIURA', 'AFRYKA', 'DETEKTYW', 'GENIUSZ'], ['ZAKŁAD', 'ŚNIADANIE', 'DZIECIŃSTWO', 'ORZESZEK'], ['CHINY', 'KOBIETA', 'PIŁKA', 'MĘŻCZYZNA'], ['KOMPUTER', 'GNIAZDKO', 'SUKIENKA', 'TRÓJKĄT'], ['CUKIEREK', 'CIEPŁO', 'KŁÓDKA', 'POŁUDNIE'], ['STRZAŁA', 'ALKOHOL', 'ZWŁOKI', 'MYDŁO'], ['INTERNET', 'PINGWIN', 'ZBROJA', 'TELEWIZJA'], ['JĘZYK', 'ŻETON', 'MAGNEZ', 'PIOSENKA'], ['SZPITAL', 'HYDRAULIK', 'SOPOT', 'MYSZ'], ['DYWAN', 'APARAT', 'OWOC', 'BUT'], ['BÓG', 'FILOZOFIA', 'SZTUKI WALKI', 'WYWIAD'], ['BIEL', 'PACZKA', 'ATAK', 'ODRODZENIE'], ['LALKA', 'TARCZA', 'CHOROBA', 'RESTAURACJA'], ['MARZENIE', 'CZAROWNICA', 'ROWER', 'AUSTRALIA'], ['OAZA', 'SAKSOFON', 'UKŁADANKA', 'STRACH'], ['TANIEC', 'MASKA', 'UCHO', 'SERWIS'], ['FLAGA', 'METAL', 'PIKNIK', 'BĘBEN'], ['CYKLOP', 'ŻYRAFA', 'ŁAPÓWKA', 'BOMBA'], ['TAJEMNICA', 'KARETKA', 'OBÓZ', 'BUTELKA'], ['DŁOŃ', 'JEDNOROŻEC', 'JASZCZURKA', 'FUTRO'], ['SANKI', 'TELEFON', 'MASZYNA', 'SZKŁO'], ['ARCHITEKTURA', 'TOALETA', 'WĄS', 'GILOTYNA'], ['NAUKA', 'PORANEK', 'LEK', 'KASA'], ['PIWNICA', 'IGŁA', 'GITARA', 'PSYCHOLOG'], ['TRĄBA', 'WEŁNA', 'RADOŚĆ', 'KANION'], ['JABŁKO', 'LEW', 'KOPIA', 'BIBLIOTEKA'], ['KOMIKS', 'ŻARÓWKA', 'NIEBO', 'KIJ'], ['SEN', 'DOŚWIADCZENIE', 'POLICJA', 'WYPADEK'], ['ZĄB', 'OBRAZ', 'ARMIA', 'PRZYNĘTA'], ['SKRZYDŁO', 'KOSZMAR', 'SAMOLOT', 'PIZZA'], ['WULKAN', 'SYRENA', 'KORONA', 'SER'], ['ZOMBIE', 'MIKROSKOP', 'PIWO', 'CZAPKA'], ['NOWY JORK', 'ŁAŃCUCH', 'WĄŻ', 'GRANAT'], ['MATEMATYKA', 'ROBAK', 'ZAMEK', 'ŻÓŁĆ'], ['SOWA', 'KOC', 'HOTEL', 'SMUTEK'], ['SŁOŃ', 'LUSTRO', 'CIAŁO', 'NOC'], ['NASZYJNIK', 'BURZA', 'KRZYK', 'KOMIN'], ['EGIPT', 'ARKTYKA', 'EKONOMIA', 'DIAMENT'], ['PASAŻER', 'ZIEMIA', 'PRĄD', 'KOT'], ['DUCH', 'ŚLUB', 'PASJONAT', 'ŚLĄSK'], ['DZIECKO', 'TURYSTA', 'JESIEŃ', 'KLAWISZ'], ['ŚWIECA', 'PREHISTORIA', 'OPERACJA', 'OKNO'], ['BIOLOGIA', 'NÓŻ', 'SMOK', 'PROMIEŃ'], ['ŚWINIA', 'DINOZAUR', 'KIESZEŃ', 'ZABÓJCA'], ['WIELORYB', 'PTAK', 'FRANCJA', 'MORZE'], ['GIGANT', 'BIURO', 'LOKOMOTYWA', 'TRUCIZNA'], ['WILKOŁAK', 'SKRZYPCE', 'NOGA', 'RZEŹNIA'], ['CENTAUR', 'KSIĄŻKA', 'DZWON', 'HELIKOPTER'], ['BIELIZNA', 'SZKOŁA', 'DIABEŁ', 'BRODA'], ['WAMPIR', 'PIES', 'MOSTEK', 'RAKIETA'], ['SZTUKA', 'KSIĘŻNICZKA', 'OGRÓD', 'ŚMIERĆ'], ['POEMAT', 'DRAMAT', 'GOLF', 'JAJKO'], ['WOJNA', 'ELF', 'PIERWIASTEK', 'RZEŹBA'], ['BARAK', 'MUZEUM', 'MIÓD', 'RÓG'], ['OJCIEC', 'KORZEŃ', 'NARODZINY', 'GÓRA'], ['ROSJA', 'NIEMCY', 'TRADYCJA', 'ARYSTOKRATA'], ['STÓŁ', 'ZDJĘCIE', 'GRA', 'SMAK'], ['KLUCZ', 'KLESZCZE', 'TUSZ', 'REWOLUCJA'], ['TWARZ', 'LABORATORIUM', 'MNICH', 'CYRK'], ['MIECZ', 'LABIRYNT', 'PIEKŁO', 'PIÓRO'], ['WALIZKA', 'JASKINIA', 'KAWA', 'BAWEŁNA'], ['ZIMA', 'BANAN', 'GARNITUR', 'ŚCIEŻKA'], ['PERFUMY', 'BANK', 'KINO', 'MŁOT'], ['ZOO', 'ŁÓDŹ PODWODNA', 'DESZCZ', 'ENERGIA'], ['MUZYK', 'KLEJ', 'MARCHEWKA', 'SPORTOWIEC'], ['ŁUK', 'WŁAMANIE', 'POKÓJ', 'PRZERWA'], ['ŻABA', 'WILK', 'POLOWANIE', 'DRUT'], ['ORKIESTRA', 'KOŚCIÓŁ', 'ANTYK', 'RAMIĘ'], ['LATO', 'KREW', 'PIEKARNIK', 'SAMOCHÓD'], ['ŁÓDKA', 'SPADOCHRON', 'SKLEP', 'MONUMENT'], ['CHLEB', 'WIEŻA', 'KLON', 'LEGENDA'], ['WYBORY', 'POMARAŃCZA', 'INDEKS', 'CZERWIEŃ'], ['ŻÓŁW', 'WINDA', 'AGENT', 'BASEN'], ['GWIAZDA', 'MATKA', 'KOKTAJL', 'TĘCZA'], ['GRANICA', 'WIEWIÓRKA', 'DOMINO', 'EXPRESS'], ['SŁUGA', 'PUSTYNIA', 'OŚMIORNICA', 'WAKACJE'], ['KALENDARZ', 'ARMATA', 'TEATR', 'KWADRAT'], ['ŚMIECH', 'FANTASTYKA', 'STOPA', 'CEGŁA'], ['PERŁA', 'OGIEŃ', 'KONKURS', 'KRÓL'], ['WIOSNA', 'PAW', 'KAMELEON', 'NUREK'], ['MAFIA', 'KONSTRUKCJA', 'HORROR', 'KANAPKA']]
 const colors = ['black', 'white']
@@ -68,7 +70,7 @@ function displayCodeCard(text, colorID = 0) {
     card.appendChild(cardText);
 
     cardHolder.appendChild(card);
-    card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
+    card.animate([{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }], { duration: 700, easing: 'ease-in-out' });
 
     addCardClick(card);
 }
@@ -85,7 +87,7 @@ function displayLinkCard(text, url, colorID = 0) {
 
     cardHolder.appendChild(card);
 
-    card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
+    card.animate([{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }], { duration: 700, easing: 'ease-in-out' });
 
     card.addEventListener('click', () => {
         window.location.href = url;
@@ -102,13 +104,13 @@ function displayQRCodeCard(data, colorID = 0) {
 
     new QRCode(card.id, {
         text: data,
-        colorDark : "#ff6d6b",
-        colorLight : "#680e07",
+        colorDark: "#ff6d6b",
+        colorLight: "#680e07",
 
-        correctLevel : QRCode.CorrectLevel.M
+        correctLevel: QRCode.CorrectLevel.M
     });
 
-    card.animate([ { transform: 'translateY(100%)' }, { transform: 'translateY(0%)' } ], { duration: 700, easing: 'ease-in-out' });
+    card.animate([{ transform: 'translateY(100%)' }, { transform: 'translateY(0%)' }], { duration: 700, easing: 'ease-in-out' });
 
     addCardClick(card);
 }
@@ -127,7 +129,7 @@ function addCardClick(card) {
                     card.remove();
                 });
             }, 100 * index);
-        });  
+        });
     }, { once: true })
 }
 
@@ -136,7 +138,10 @@ function addCardClick(card) {
 
 
 
-playButton.addEventListener('click', () => { generateGame(codeInput.value) })
+playButton.addEventListener('click', () => {
+    landing.classList.add('hidden');
+    gameMode.classList.remove('hidden');
+})
 
 codeInput.oldValue = ''
 codeInput.addEventListener('input', (e) => {
@@ -148,6 +153,26 @@ codeInput.addEventListener('input', (e) => {
 
 codeInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter") generateGame(codeInput.value)
+});
+
+const modeNewGame = document.querySelector('#mode-new-game');
+const modeLaunchCode = document.querySelector('#mode-launch-code');
+const modeBack = document.querySelector('#mode-back');
+
+modeNewGame.addEventListener('click', () => {
+    generateGame('');
+});
+
+modeLaunchCode.addEventListener('click', () => {
+    window.location.href = './code.html';
+});
+
+modeBack.addEventListener('click', () => {
+    gameMode.classList.add('hidden');
+    landing.classList.remove('hidden');
+    videoCheckbox.checked = false;
+    qrScanner.stop();
+    videoElem.style.opacity = 0;
 });
 
 
@@ -164,14 +189,14 @@ function generateGame(code) {
         team = 1 - codeBin[31]
         console.log(codeBin, team);
         for (let i = 0; i < 28; i += 7) banned.push(parseInt(codeBin.slice(i, i + 7), 2))
-        displayCodeCard("START",  codeBin[31]);
+        displayCodeCard("START", codeBin[31]);
 
-        if(window.location.href.includes('?c=')) {
+        if (window.location.href.includes('?c=')) {
             let hrefUrl = window.location.href;
-            if(hrefUrl.includes('.html')) 
+            if (hrefUrl.includes('.html'))
                 hrefUrl = hrefUrl.replace('index.html', 'code.html');
-            else 
-            hrefUrl = hrefUrl.replace('?c=', 'code.html?c=');
+            else
+                hrefUrl = hrefUrl.replace('?c=', 'code.html?c=');
             displayLinkCard("C0DES", hrefUrl, 1 - team);
         }
     } else
@@ -209,7 +234,7 @@ function generateGame(code) {
         else if (len > 7)
             key.style.fontSize = `${2.5}cqw`
         key.textContent = phrazes;
-        key.setAttribute('data-n', 4-codes.indexOf(phrazes))
+        key.setAttribute('data-n', 4 - codes.indexOf(phrazes))
         board.prepend(key)
     }
 
@@ -220,7 +245,7 @@ function hex2bin(hex) {
     return (parseInt(hex, 16).toString(2)).padStart(32, '0');
 }
 
-async function handleScreen(){
+async function handleScreen() {
     window.history.pushState({}, '', '')
     document.body.requestFullscreen()
     screen.orientation.lock('landscape');

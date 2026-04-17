@@ -24,20 +24,34 @@
             <div id="bg-dots"></div>
             <div id="bg-glow"></div>
         </div>
-        <main>
-            <a href="./code.html">
+        <main id="landing">
+            <a>
                 <img src="img/logo2.webp" alt="Decrypto">
             </a>
             <div class="card white">
-                <div class="cardUI" id="play-button">START</div>
+                <div class="cardUI" id="play-button">ZAGRAJ</div>
+            </div>
+            <div class="card black">
+                <div class="cardUI">INFO</div>
+            </div>
+        </main>
+        <main id="gameMode" class="hidden">
+             <a href="">
+                <img src="img/logo2.webp" alt="Decrypto">
+            </a>
+            <div class="card white">
+                <div class="cardUI" id="mode-new-game">NOWA GRA</div>
             </div>
             <div id="reader" class="card black">
                 <input type="checkbox" id="cameraOn">
                 <label for="cameraOn">
                     <img src="img/camera_icon.webp" alt="camera">
                 </label>
-                <input type="text" maxlength="8" value="" placeholder="C0DE">
+                <input type="text" maxlength="8" value="" placeholder="WPISZ KOD">
                 <video></video>
+            </div>
+            <div class="card white">
+                <div class="cardUI" id="mode-launch-code">GENERATOR</div>
             </div>
         </main>
         <section>
@@ -47,7 +61,7 @@
         </section>
         <div id="cardHolder"></div>
     </div>
-    
+
     <script src="qrcode/qrcode.min.js"></script>
     <script type="module" src="qrcode/qr-scanner-worker.min.js"></script>
     <script type="module" src="qrcode/qr-scanner.min.js"></script>
