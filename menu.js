@@ -3,7 +3,7 @@ function toggleMenu() {
 }
 
 function isGameRunning() {
-    return document.body.classList.contains('game') && document.querySelector('#board').classList.contains('shown');
+    return document.body.classList.contains('game');
 }
 
 function togglePauseOverlay() {
@@ -121,14 +121,7 @@ document.querySelector('#menu-icon').addEventListener('click', toggleMenu);
 document.querySelector('#menu-pause').addEventListener('click', togglePauseOverlay);
 document.querySelector('#menu-fullscreen').addEventListener('click', toggleFullscreen);
 window.addEventListener('game-started', blinkMenuOnGameLaunch);
-document.querySelector('#info-button').addEventListener('click', () => {
-    showAppConfirm({
-        title: 'INFO',
-        text: 'Gra jest nieoficjalną adaptacją planszowej gry towarzyskiej "Decrypto". Projekt nie jest powiązany z twórcami oryginalnej gry ani jej wydawcą. Wszystkie prawa do gry "Decrypto" należą do ich właścicieli. Celem tej adaptacji jest umożliwienie gry w warunkach, gdy gra planszowa nie jest dostępna.',
-        okText: 'OK',
-        ariaLabel: 'Informacje o grze'
-    });
-});
+
 document.querySelector('#menu-exit').addEventListener('click', async () => {
     const shouldExit = await showExitConfirm();
     if (shouldExit) {

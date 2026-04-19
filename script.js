@@ -40,6 +40,15 @@ const qrScanner = new QrScanner(
     }
 )
 
+document.querySelector('#info-button').addEventListener('click', () => {
+    showAppConfirm({
+        title: 'INFO',
+        text: 'Gra jest nieoficjalną adaptacją planszowej gry towarzyskiej "Decrypto". Projekt nie jest powiązany z twórcami oryginalnej gry ani jej wydawcą. Wszystkie prawa do gry "Decrypto" należą do ich właścicieli. Celem tej adaptacji jest umożliwienie gry w warunkach, gdy gra planszowa nie jest dostępna.',
+        okText: 'OK',
+        ariaLabel: 'Informacje o grze'
+    });
+});
+
 // get param c from url
 const urlParams = new URLSearchParams(window.location.search);
 const c = urlParams.get('c');
