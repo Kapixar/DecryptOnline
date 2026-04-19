@@ -12,6 +12,9 @@
 </head>
 
 <body class="">
+    <audio id="loadSound" src="audio/1_beep.mp3" preload="auto"></audio>
+    <audio id="drawSound" src="audio/5_beeps.wav" preload="auto"></audio>
+
     <div id="container">
         <span id="menu" class="hidden">
             <img id="menu-icon" src="img/greater-than.png">
@@ -24,7 +27,7 @@
             <div id="bg-dots"></div>
             <div id="bg-glow"></div>
         </div>
-    
+
         <div id="cardHolder">
             <div class="card black">
                 <div class="cardUI">START</div>
@@ -34,11 +37,26 @@
     <script>
         const card = document.querySelector('.card');
         const cardText = document.querySelector('.card div');
+        const loadSound = document.getElementById('loadSound');
+        const drawSound = document.getElementById('drawSound');
 
         let t = 0;
+        let counter = 0;
         let n = [1, 2, 3, 4];
+
+        // Restore previous state if timer hasn't run out
+        const storedT = localStorage.getItem('codeT');
+        const storedCode = localStorage.getItem('codeText');
+        const storedCounter = localStorage.getItem('codeCounter');
+
+        if (storedT && storedCode && Date.now() - parseInt(storedT) < 20000) {
+            t = parseInt(storedT);
+            counter = parseInt(storedCounter) || 0;
+            cardText.textContent = storedCode;
+        }
+
         cardText.parentElement.addEventListener('click', () => {
-            if (Date.now() - t < 30000) {
+            if (Date.now() - t < 20000) {
                 cardText.animate(
                     { translate: ['-30px', '30px', '0px', '-10px', '5px'] }
                     , {
@@ -47,21 +65,48 @@
                     })
                 return;
             };
+
             t = Date.now();
+            localStorage.setItem('codeT', t);
+            localStorage.setItem('codeCounter', counter);
+
             cardText.animate(
                 { opacity: [.7, 0, .4, 0, 0, .5, .1, .7] }
                 , {
                     duration: 1000,
                     easing: 'steps(8, end)'
-            })
+                })
+
             card.animate(
                 { scale: [1, 0.95, 1] }
                 , {
                     duration: 400,
                     easing: 'ease-in-out'
-            })
+                })
+                ;
+
+            if (counter === 0) {
+                loadSound.play().catch(e => console.log('Audio play prevented:', e));
+            } else {
+                drawSound.currentTime = 0;
+                drawSound.play().catch(e => console.log('Audio play prevented:', e));
+            }
+            counter++;
+
             setTimeout(() => {
-                cardText.textContent = n.sort(() => (Math.random() > 0.5) ? 1 : -1).slice(0, 3).join('.')
+                const shuffled = [...n];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                const newCode = shuffled.slice(0, 3).join('.');
+                cardText.textContent = newCode;
+                localStorage.setItem('codeText', newCode);
+
+                if (counter > 1) {
+                    card.classList.toggle('white');
+                    card.classList.toggle('black');
+                }
             }, 500)
         });
     </script>
